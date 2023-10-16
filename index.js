@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
     res.send("Hello Ashish");
 });
 
-
+//HYBRID SERVER
 app.get('/users', (req, res) => {
     const html = `<ul>
     ${users.map(user => `<li>${user.first_name}</li>`).join("")}
@@ -40,14 +40,18 @@ app.get('/api/users', (req, res) => {
     res.json(users);
 });
 
+//routing performed by express
+app.route('/api/users/:id')
+    .get((req, res) => {
+        const id = Number(req.params.id); // same hota hai name
+        const user = users.find(user => user.id === id);
+        res.json(user);
+    })
+    .patch((req, res) => { res.json({ status: 'Pending' }) })
+    .delete((req, res) => { res.json({ status: 'Pending' }) });
 
-app.get('/api/users/:id', (req, res) => {
-    const id = Number(req.params.id); // same hota hai name
-    const user = users.find(user => user.id === id);
-    res.json(user);
-});
 
 
-//browser by default sends get request --> so we will use here POSTMAN
-app.post('/api/users', (req, res) => { });
+
+
 app.listen(PORT, () => { console.log(`server running on port ${PORT} `) });
