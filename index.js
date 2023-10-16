@@ -20,14 +20,17 @@ DELETE /users/:id -Delete user by id
 const express = require('express');
 const app = express();
 const PORT = 8000;
-
 const users = require('./MOCK_DATA.json');
+const fs = require('fs');
+const { error } = require('console');
 
+app.use(express.urlencoded({ urlencoded: true }));
+app.use(express.json());
 app.get('/', (req, res) => {
     res.send("Hello Ashish");
 });
 
-//HYBRID SERVER
+
 app.get('/users', (req, res) => {
     const html = `<ul>
     ${users.map(user => `<li>${user.first_name}</li>`).join("")}
@@ -53,5 +56,13 @@ app.route('/api/users/:id')
 
 
 
-
+//browser by default sends get request --> so we will use here POSTMAN
+app.post('/api/users', (req, res) => {
+    const body = req.body;
+    console.log(body);
+    users.push({ ...body, id: users.length + 1 });
+    fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (error, data) => {
+        res.json({ status: 'Success', id: users.length + 1 });
+    });
+});
 app.listen(PORT, () => { console.log(`server running on port ${PORT} `) });
