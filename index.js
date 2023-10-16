@@ -24,8 +24,15 @@ const users = require('./MOCK_DATA.json');
 const fs = require('fs');
 const { error } = require('console');
 
-app.use(express.urlencoded({ urlencoded: true }));
+app.use(express.urlencoded({ urlencoded: false }));
 app.use(express.json());
+
+app.use((req, res, next) => {
+    console.log('Request URL:', req.originalUrl);
+    fs.appendFile("log.text", `\n ${Date.now()}: ${req.method} :${req.path}`, (err, data) => {
+        next();
+    });
+})
 app.get('/', (req, res) => {
     res.send("Hello Ashish");
 });
