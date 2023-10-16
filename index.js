@@ -65,7 +65,16 @@ app.route('/api/users/:id')
             res.json({ status: 'Success', id: users.length + 1 });
         });
     })
-    .delete((req, res) => { res.json({ status: 'Pending' }) });
+    .delete((req, res) => {
+        const id = Number(req.params.id); // same hota hai name
+        const index = users.findIndex(user => user.id === id);
+        if (index !== -1) {
+            users.splice(index, 1);
+        }
+        fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (error, data) => {
+            res.json({ status: 'Success Deleted' });
+        });
+    });
 
 
 
