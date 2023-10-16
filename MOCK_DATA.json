@@ -7993,11 +7993,11 @@
     },
     {
         "id": 1000,
-        "first_name": "Bronny",
-        "last_name": "Heintsch",
-        "email": "bheintschrr@sphinn.com",
-        "gender": "Male",
-        "job_title": "Quality Engineer"
+        "first_name": "harsh",
+        "last_name": "Yadav",
+        "email": "harsh@gmail.com",
+        "gender": "male",
+        "job_title": "gym"
     },
     {
         "first_name": "Ashish",
@@ -8006,13 +8006,5 @@
         "gender": "male",
         "job_title": "SDE",
         "id": 1001
-    },
-    {
-        "first_name": "Harsh",
-        "last_name": "Yadav",
-        "email": "harsh@gmail.com",
-        "gender": "male",
-        "job_title": "Influencer",
-        "id": 1002
     }
 ]

@@ -43,6 +43,10 @@ app.get('/api/users', (req, res) => {
     res.json(users);
 });
 
+
+function updateUser(id, updatedUser) {
+
+}
 //routing performed by express
 app.route('/api/users/:id')
     .get((req, res) => {
@@ -50,9 +54,18 @@ app.route('/api/users/:id')
         const user = users.find(user => user.id === id);
         res.json(user);
     })
-    .patch((req, res) => { res.json({ status: 'Pending' }) })
+    .patch((req, res) => {
+        const id = Number(req.params.id); // same hota hai name
+        const updateduser = req.body;
+        const index = users.findIndex(user => user.id === id);
+        if (index !== -1) {
+            users[index] = { ...users[index], ...updateduser };
+        }
+        fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (error, data) => {
+            res.json({ status: 'Success', id: users.length + 1 });
+        });
+    })
     .delete((req, res) => { res.json({ status: 'Pending' }) });
-
 
 
 
