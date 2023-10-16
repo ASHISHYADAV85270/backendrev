@@ -28,7 +28,8 @@ app.use(express.urlencoded({ urlencoded: false }));
 app.use(express.json());
 
 app.use((req, res, next) => {
-    console.log('Request URL:', req.originalUrl);
+    // console.log('Request URL:', req.originalUrl);
+
     fs.appendFile("log.text", `\n ${Date.now()}: ${req.method} :${req.path}`, (err, data) => {
         next();
     });
@@ -47,6 +48,9 @@ app.get('/users', (req, res) => {
 
 //REST API
 app.get('/api/users', (req, res) => {
+    // console.log(req.headers);  -> set during sending
+    res.setHeader("X-myName", "Ashish yadav"); // custom header hai yeah 
+    /* Always add x to custom headers */
     res.json(users);
 });
 
@@ -59,6 +63,9 @@ app.route('/api/users/:id')
     .get((req, res) => {
         const id = Number(req.params.id); // same hota hai name
         const user = users.find(user => user.id === id);
+        if (!user) {
+            return res.status(404).send({ status: 'Id not found' });
+        }
         res.json(user);
     })
     .patch((req, res) => {
@@ -67,6 +74,8 @@ app.route('/api/users/:id')
         const index = users.findIndex(user => user.id === id);
         if (index !== -1) {
             users[index] = { ...users[index], ...updateduser };
+        } else {
+            return res.status(404).send({ status: 'Id not found' });
         }
         fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (error, data) => {
             res.json({ status: 'Success', id: users.length + 1 });
@@ -78,6 +87,9 @@ app.route('/api/users/:id')
         if (index !== -1) {
             users.splice(index, 1);
         }
+        else {
+            return res.status(404).send({ status: 'Id not found' });
+        }
         fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (error, data) => {
             res.json({ status: 'Success Deleted' });
         });
@@ -88,10 +100,13 @@ app.route('/api/users/:id')
 //browser by default sends get request --> so we will use here POSTMAN
 app.post('/api/users', (req, res) => {
     const body = req.body;
-    console.log(body);
+    if (!body.first_name || !body.last_name || !body.email) {
+        return res.status(401).json({ ERROR: " enter all the values" });
+    }
+    // console.log(body);
     users.push({ ...body, id: users.length + 1 });
     fs.writeFile('./MOCK_DATA.json', JSON.stringify(users), (error, data) => {
-        res.json({ status: 'Success', id: users.length + 1 });
+        res.status(201).json({ status: 'Success', id: users.length + 1 });
     });
 });
 app.listen(PORT, () => { console.log(`server running on port ${PORT} `) });
