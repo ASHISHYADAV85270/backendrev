@@ -1,0 +1,10 @@
+No SQL Document Based Database
+Strong Support for Aggregation Pipes
+Works on BSON format
+Best For Node application’s
+
+
+
+Schema-> Define the Structure
+        Schema->model
+        using model we can do CRUD operations
