@@ -1,11 +1,10 @@
 import express from 'express';
-import { getHandlerCreateShortUrl, getHandlerGetUrl, getHandlerAnalyticUrl } from '../controllers/shorturl.js'
-const router = express.Router();
+import { getAllShortIds, getHandlerCreateShortUrl, getHandlerGetUrl, getHandlerAnalyticUrl } from '../controllers/shorturl.js'
+const urlrouter = express.Router();
 
 
-router.post('/', getHandlerCreateShortUrl);
-router.get('/:shortID', getHandlerGetUrl);
-router.get('/analytics/:shortId', getHandlerAnalyticUrl);
+urlrouter.get('/:shortId', getHandlerGetUrl);
+urlrouter.get('/analytics/:shortId', getHandlerAnalyticUrl);
+urlrouter.post('/', getHandlerCreateShortUrl);
 
-
-export { router }
+export { urlrouter }

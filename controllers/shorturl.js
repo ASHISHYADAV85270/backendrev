@@ -7,7 +7,9 @@ async function getHandlerCreateShortUrl(req, res) {
     }
     const shortId = nanoid(8);
     const result = await URL.create({ shortId: shortId, redirectedUrl: redirectedUrl, visitHistory: [] })
-    return res.status(201).json({ msg: 'success', shortId });
+    // return res.status(201).json({ msg: 'success', shortId });
+    return res.render("index.ejs", { id: shortId });
+
 }
 
 async function getHandlerGetUrl(req, res) {

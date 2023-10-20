@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHORTIDS</title>
+</head>
+
+<body>
+    <h1 style="display: flex; justify-content: center;align-items: center;">ALL ShortID are</h1>
+    <%if(url) {%>
+        <table>
+            <thead>
+                <th>S. No</th>
+                <th>ShortID</th>
+                <th>Redirect</th>
+                <th>Clicks</th>
+            </thead>
+            <tbody>
+                <% url.forEach((item,index)=> {%>
+                    <tr>
+
+                        <td>
+                            <%= index+1%>
+                        </td>
+                        <td>
+                            <a href="http://localhost:8000/url/<%=item.shortId%>" target="_blank">
+                                <%= item.shortId %>
+                            </a>
+                        </td>
+                        <td>
+                            <%= item.redirectedUrl %>
+                        </td>
+                        <td>
+                            <%= item.visitHistory.length %>
+                        </td>
+                    </tr>
+                    <% })%>
+            </tbody>
+        </table>
+        <% }%>
+
+
+</body>
+
+</html>

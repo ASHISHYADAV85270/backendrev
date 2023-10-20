@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+
+<body>
+    <h1>Hey from server </h1>
+    <p>Enter your URL to get shortened</p>
+    <% if(locals.id) {%>
+        <p>URL Generated : <a href="http://localhost:8000/url/<%=id%>" target="_blank">http:localhost:8000/url/<%=id%>
+            </a>
+        </p>
+        <% } %>
+
+
+            <div>
+                <form method="post" action="/url">
+                    <label>Enter your original URL</label>
+                    <input type="text" name="url" placeholder="https://example" />
+                    <button type="submit">Generate</button>
+                </form>
+            </div>
+            <div style="margin-top: 20px;"><a href="http://localhost:8000/getallId" target="_blank">Watch All available
+                    shortIDS</a></div>
+</body>
+
+</html>
