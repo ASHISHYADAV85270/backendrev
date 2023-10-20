@@ -12,8 +12,7 @@ async function getHandlerCreateShortUrl(req, res) {
 
 async function getHandlerGetUrl(req, res) {
     const shortId = req.params.shortId;
-    const result = await URL.findOneAndUpdate(shortId, { $push: { visitHistory: { timestamp: Date.now() } } });
-    console.log(result);
+    const result = await URL.findOneAndUpdate({ shortId }, { $push: { visitHistory: { timestamp: Date.now() } } });
     return res.redirect(result.redirectedUrl);
 }
 async function getHandlerAnalyticUrl(req, res) {
@@ -24,4 +23,10 @@ async function getHandlerAnalyticUrl(req, res) {
     }
     return res.json({ totalClick: result.visitHistory.length, analytics: result.visitHistory });
 }
-export { getHandlerCreateShortUrl, getHandlerGetUrl, getHandlerAnalyticUrl };
+
+// for static url
+async function getAllShortIds(req, res) {
+    const allUrls = await URL.find({});
+    return res.render("geturls.ejs", { url: allUrls });
+}
+export { getAllShortIds, getHandlerCreateShortUrl, getHandlerGetUrl, getHandlerAnalyticUrl };
