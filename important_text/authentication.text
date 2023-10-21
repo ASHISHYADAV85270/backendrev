@@ -1,0 +1,6 @@
+sessionId-> its a temporary id which we make using uuid module 
+in this we send a cookie with a certain  sessionid and store that {id,user} in our map that is on server side
+now whenever we referesh this map become empty so this is not usefull as such
+Also it uses the storage of server side which is not a good practice
+
+

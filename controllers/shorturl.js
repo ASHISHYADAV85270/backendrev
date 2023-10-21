@@ -6,7 +6,7 @@ async function getHandlerCreateShortUrl(req, res) {
         return res.status(400).json({ error: 'url is required' });
     }
     const shortId = nanoid(8);
-    const result = await URL.create({ shortId: shortId, redirectedUrl: redirectedUrl, visitHistory: [] })
+    const result = await URL.create({ shortId: shortId, redirectedUrl: redirectedUrl, visitHistory: [], createdBy: req.user._id })
     // return res.status(201).json({ msg: 'success', shortId });
     return res.render("index.ejs", { id: shortId });
 
@@ -14,6 +14,7 @@ async function getHandlerCreateShortUrl(req, res) {
 
 async function getHandlerGetUrl(req, res) {
     const shortId = req.params.shortId;
+    console.log(shortId);
     const result = await URL.findOneAndUpdate({ shortId }, { $push: { visitHistory: { timestamp: Date.now() } } });
     return res.redirect(result.redirectedUrl);
 }
@@ -28,7 +29,10 @@ async function getHandlerAnalyticUrl(req, res) {
 
 // for static url
 async function getAllShortIds(req, res) {
-    const allUrls = await URL.find({});
+    if (!req.user) {
+        return res.redirect('/login');
+    }
+    const allUrls = await URL.find({ createdBy: req.user?._id });
     return res.render("geturls.ejs", { url: allUrls });
 }
 export { getAllShortIds, getHandlerCreateShortUrl, getHandlerGetUrl, getHandlerAnalyticUrl };

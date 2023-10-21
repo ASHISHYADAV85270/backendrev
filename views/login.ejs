@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <h1 style="display: flex; justify-content: center; align-items: center;">LOGIN </h1>
+    <form action="/user/login" method="post" style="display: flex; flex-direction: column; align-items: center; ">
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" style="width: 20vw;height: 20px;">
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" style="width: 20vw;height: 20px;">
+        <button type="submit">Login</button>
+    </form>
+    <a href="http://localhost:8000/signup">New user</a>
+
+    <div>
+        <%if(locals.error){%>
+            <div>
+                error: <%= error %>
+            </div>
+            <% } %>
+    </div>
+</body>
+
+</html>
