@@ -1,0 +1,2 @@
+stateless Auth ->  backend does not have any stateholders, we put state into payload and put a stamp such that nobody can change it , although they can read it 
+This is done by (Token Based Authentication)=> JSON WEB TOKEN-> JWT Token

@@ -1,3 +1,4 @@
+import { render } from 'ejs';
 import { URL } from '../models/shorturl.js';
 import { nanoid } from 'nanoid';
 async function getHandlerCreateShortUrl(req, res) {
@@ -5,9 +6,12 @@ async function getHandlerCreateShortUrl(req, res) {
     if (!redirectedUrl) {
         return res.status(400).json({ error: 'url is required' });
     }
+    const urlcheck = await URL.find({ redirectedUrl: redirectedUrl });
+    if (urlcheck) {
+        return render("index.ejs");
+    }
     const shortId = nanoid(8);
     const result = await URL.create({ shortId: shortId, redirectedUrl: redirectedUrl, visitHistory: [], createdBy: req.user._id })
-    // return res.status(201).json({ msg: 'success', shortId });
     return res.render("index.ejs", { id: shortId });
 
 }

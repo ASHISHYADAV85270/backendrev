@@ -1,10 +1,10 @@
 import { getUser } from "../utils/auth.js";
 async function restrictToLoggedInUserOnly(req, res, next) {
-    const userUid = req.cookies?.uid;
-    if (!userUid) {
+    const token = req.cookies?.token;
+    if (!token) {
         return res.redirect("/login");
     }
-    const user = getUser(userUid);
+    const user = getUser(token);
     if (!user) {
         return res.redirect("/login");
     }
@@ -14,8 +14,8 @@ async function restrictToLoggedInUserOnly(req, res, next) {
 
 //just checking user is authenticated or not
 async function checkAuth(req, res, next) {
-    const userUid = req.cookies?.uid;
-    const user = getUser(userUid);
+    const token = req.cookies?.token;
+    const user = getUser(token);
     req.user = user;
     next();
 }
