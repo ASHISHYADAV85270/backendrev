@@ -1,2 +1,9 @@
 stateless Auth ->  backend does not have any stateholders, we put state into payload and put a stamp such that nobody can change it , although they can read it 
 This is done by (Token Based Authentication)=> JSON WEB TOKEN-> JWT Token
+
+we can set a expiry day for cookie and domain for a cookie.. they are limited to browser only 
+
+second way is by sending in response
+header :{
+    authorization : Bearer tokenvalue 
+}
