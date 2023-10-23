@@ -1,50 +1,26 @@
-// import { getUser } from "../utils/auth.js";
-// async function restrictToLoggedInUserOnly(req, res, next) {
-//     const token = req.cookies?.token;
-//     if (!token) {
-//         return res.redirect("/login");
-//     }
-//     const user = getUser(token);
-//     if (!user) {
-//         return res.redirect("/login");
-//     }
-//     req.user = user;
-//     next();
-// }
-
-// //just checking user is authenticated or not
-// async function checkAuth(req, res, next) {
-//     const token = req.cookies?.token;
-//     const user = getUser(token);
-//     req.user = user;
-//     next();
-// }
-// export { restrictToLoggedInUserOnly, checkAuth };
-
-
-
 import { getUser } from "../utils/auth.js";
-async function restrictToLoggedInUserOnly(req, res, next) {
-    const userId = req.headers['authorization'];
-    if (!userId) {
-        return res.redirect("/login");
+function checkforAuthentication(req, res, next) {
+    console.log("i am checking for authentication");
+    const tokenCookie = req?.cookies?.token;
+    req.user = null;
+    if (!tokenCookie) {
+        return next();
     }
-    const token = userId.split('Bearer ')[1]; // Bearer tokenValue
-    const user = getUser(token);
-    if (!user) {
-        return res.redirect("/login");
-    }
+    const user = getUser(tokenCookie);
     req.user = user;
-    next();
+    return next();
 }
 
-//just checking user is authenticated or not
-async function checkAuth(req, res, next) {
-    const userId = req.headers['authorization'];
-    const token = userId?.split('Bearer ')[1]; // Bearer tokenValue
-
-    const user = getUser(token);
-    req.user = user;
-    next();
+function restricTo(roles) {
+    return function (req, res, next) {
+        if (!req.user) {
+            return res.redirect('/login');
+        }
+        if (!roles.includes(req.user.role)) {
+            return res.end("Unauthorized");
+        }
+        return next();
+    }
 }
-export { restrictToLoggedInUserOnly, checkAuth };
+
+export { checkforAuthentication, restricTo };

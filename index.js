@@ -5,7 +5,7 @@ import { userRouter } from './routes/user.js'
 import { connectDB } from './connection.js';
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import { restrictToLoggedInUserOnly, checkAuth } from './middleware/auth.js'
+import { checkforAuthentication, restricTo } from './middleware/auth.js'
 const app = express();
 const PORT = 8000;
 const dblink = 'mongodb+srv://ashish_practice:qwer1234@mybackend.mhfbkfd.mongodb.net/?retryWrites=true&w=majority';
@@ -14,11 +14,11 @@ app.set('views', path.resolve('./views'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+app.use(checkforAuthentication);
 
-
-app.use('/url', restrictToLoggedInUserOnly, urlrouter);
+app.use('/url', restricTo(['NORMAL', 'ADMIN']), urlrouter);
 app.use('/user', userRouter);
-app.use('/', checkAuth, staticrouter);
+app.use('/', staticrouter);
 connectDB(dblink);
 
 

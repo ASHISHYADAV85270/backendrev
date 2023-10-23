@@ -4,7 +4,9 @@ const secretKey = 'afgsdhgsfagsfdbgfasgfd';
 //this function makes token for me
 function setUser(user) {
     const payload = {
-        ...user,
+        _id: user._id,
+        email: user.email,
+        role: user.role,
     };
     return jwt.sign(payload, secretKey);
 }
